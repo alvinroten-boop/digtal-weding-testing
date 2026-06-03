@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Undangan Pernikahan Editable</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#faf7f2;color:#333}
+.hero,.section{padding:60px 20px;text-align:center}
+.hero{min-height:100vh;color:#fff;display:flex;flex-direction:column;justify-content:center;background-size:cover;background-position:center}
+.container{max-width:1000px;margin:auto}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.gallery img{width:100%;height:260px;object-fit:cover;border-radius:10px}
+.btn{padding:12px 20px;border:none;border-radius:8px;cursor:pointer}
+.hidden{display:none}
+</style>
+</head>
+<body>
+
+<script>
+/* =========================
+   EDIT SEMUA DATA DI SINI
+   ========================= */
+
+const weddingData = {
+  groom: "senyap",
+  bride: "sia",
+
+  groomFather: "senyap Father",
+  groomMother: "senyap Mother",
+
+  brideFather: "sia Father",
+  brideMother: "sia Mother",
+
+  weddingDate: "20 Desember 2026",
+  countdownDate: "2026-12-20T09:00:00",
+
+  openingText: "ini adalah contoh undangan digital .",
+
+  loveStory: "berawal dari 3 orang yang mencari pejuang ruapiah.",
+
+  giftAccount: "1234567890",
+  giftName: "senyapsia",
+
+  mapsEmbed:
+  "https://maps.app.goo.gl/MteYA9m4mVyvAXVC6",
+
+  heroImage:
+  "https://www.instagram.com/p/CxS7iiAvaQo/",
+
+  gallery: [
+    "https://www.instagram.com/p/CxS7f8MP_gh/",
+    "https://www.instagram.com/p/CxS7jX0P5sD/",
+    "https://www.instagram.com/p/C3c1O3ayWxb/",
+    "https://www.instagram.com/p/CxS4vu4vDdc/?img_index=2",
+    "https://www.instagram.com/p/CxS7HhkPhC_/?img_index=2",
+    "https://www.instagram.com/p/CxS6V85vMdD/?img_index=2"
+  ]
+};
+</script>
+
+<div id="cover" class="hero">
+  <h3>Kepada Yth.</h3>
+  <h2 id="spencer dan renaldi">Tamu Undangan</h2>
+  <h1 id="heroCouple"></h1>
+  <button class="btn" onclick="openInvitation()">Buka Undangan</button>
+</div>
+
+<div id="content" class="hidden">
+
+<section class="section container">
+  <h1 id="coupleName"></h1>
+  <p id="openingText"></p>
+  <h2 id="countdown"></h2>
+</section>
+
+<section class="section container">
+  <h2>Mempelai</h2>
+
+  <p id="groomInfo"></p>
+  <br>
+  <p id="brideInfo"></p>
+</section>
+
+<section class="section container">
+  <h2>Cerita Kami</h2>
+  <p id="loveStory"></p>
+</section>
+
+<section class="section container">
+  <h2>Galeri</h2>
+  <div class="gallery" id="gallery"></div>
+</section>
+
+<section class="section container">
+  <h2>Lokasi Acara</h2>
+  <iframe id="mapsFrame" width="100%" height="400"></iframe>
+</section>
+
+<section class="section container">
+  <h2>Wedding Gift</h2>
+  <p id="giftInfo"></p>
+</section>
+
+</div>
+
+<script>
+const params = new URLSearchParams(location.search);
+document.getElementById("guestName").innerText =
+params.get("to") || "Tamu Undangan";
+
+document.getElementById("heroCouple").innerText =
+`${weddingData.groom} & ${weddingData.bride}`;
+
+document.getElementById("coupleName").innerText =
+`${weddingData.groom} & ${weddingData.bride}`;
+
+document.getElementById("openingText").innerText =
+weddingData.openingText;
+
+document.getElementById("groomInfo").innerHTML =
+`<b>${weddingData.groom}</b><br>Putra dari<br>${weddingData.groomFather}<br>${weddingData.groomMother}`;
+
+document.getElementById("brideInfo").innerHTML =
+`<b>${weddingData.bride}</b><br>Putri dari<br>${weddingData.brideFather}<br>${weddingData.brideMother}`;
+
+document.getElementById("loveStory").innerText =
+weddingData.loveStory;
+
+document.getElementById("giftInfo").innerHTML =
+`${weddingData.giftAccount}<br>a/n ${weddingData.giftName}`;
+
+document.getElementById("mapsFrame").src =
+weddingData.mapsEmbed;
+
+document.getElementById("cover").style.backgroundImage =
+`linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.4)), url('${weddingData.heroImage}')`;
+
+const gallery = document.getElementById("gallery");
+
+weddingData.gallery.forEach(photo=>{
+ const img=document.createElement("img");
+ img.src=photo;
+ gallery.appendChild(img);
+});
+
+function openInvitation(){
+ document.getElementById("cover").style.display="none";
+ document.getElementById("content").classList.remove("hidden");
+}
+
+const target=new Date(weddingData.countdownDate);
+
+setInterval(()=>{
+ const now=new Date();
+ const diff=target-now;
+
+ const days=Math.floor(diff/(1000*60*60*24));
+ const hours=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+
+ document.getElementById("countdown").innerText =
+ `${days} Hari ${hours} Jam Menuju Hari Bahagia`;
+},1000);
+</script>
+
+</body>
+</html>
